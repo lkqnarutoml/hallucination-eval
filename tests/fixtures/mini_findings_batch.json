@@ -1,0 +1,45 @@
+{
+  "batch": "001",
+  "evaluator": {"model": "test-model", "mode": "multi-agent"},
+  "pseudocode_sha256": null,
+  "conversations": [
+    {
+      "conversation_id": "sim-mini-0001",
+      "source": {"path": "tests/fixtures/mini_run/events.jsonl", "format": "events_jsonl", "locator": "events:tests/fixtures/mini_run/events.jsonl#seq=1"},
+      "workflow": "damaged",
+      "turns": 3,
+      "points_evaluated": 6,
+      "outcome": "unknown",
+      "hallucinations": [
+        {
+          "id": "H-0001",
+          "turn": 2,
+          "point": "zip_collection.save_zip_code.args.zip_code",
+          "author": "model",
+          "type": "unsupported_argument",
+          "check_kind": "grounding",
+          "severity": "medium",
+          "confidence": "high",
+          "observed": "10001",
+          "expected_or_allowed": "100011, the six digits the customer said; the rule forbids truncation and requires exactly five digits as spoken",
+          "rationale": "The argument 10001 is the five-digit prefix of the customer's six-digit utterance 100011. No allowed source (current customer utterance, state, workflow rules) contains 10001; the step text says an input that is not exactly five digits must trigger indicate_invalid_zipcode instead.",
+          "evidence": [
+            {"kind": "customer_utterance", "turn": 2, "quote": "my zip is 100011", "locator": "events:tests/fixtures/mini_run/events.jsonl#seq=13&chunk=/outputs/0/diagnosticInfo/messages/0/chunks/0"},
+            {"kind": "tool_call", "turn": 2, "quote": "save_zip_code({\"zip_code\": \"10001\"})", "locator": "events:tests/fixtures/mini_run/events.jsonl#seq=13&chunk=/outputs/0/diagnosticInfo/messages/1/chunks/0"},
+            {"kind": "pseudocode", "ref": "tool save_zip_code, inputs.zip_code.rule = exactly_5_digits_as_spoken; step zip_collection decide.digits_other -> indicate_invalid_zipcode", "provenance": "seen_in_code"}
+          ],
+          "verification": {"status": "confirmed", "auditor_rationale": "Re-derived from the cited utterance and tool call: 100011 has six digits, the argument dropped the last one; the pseudocode forbids truncation.", "revised_from": null},
+          "decided_by": "evaluator",
+          "batch": "001"
+        }
+      ],
+      "rejected": [],
+      "pipeline_findings": [],
+      "unverifiable": [
+        {"point": "zip_confirmation.validate_zip_code.output", "turn": 3, "reason": "no ZIP on file from the mailing address API in the materials; the demo tool answered SUCCESS without calling it"}
+      ],
+      "notes": ["The read-back 'I heard 10001' repeats the truncated value; it is code-authored, so it is not a second hallucination."],
+      "audit": {"sampled_supported": 3, "misses_found": 0}
+    }
+  ]
+}

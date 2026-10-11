@@ -1,0 +1,27 @@
+{
+  "skill_name": "hallucination-eval",
+  "positive": [
+    "Check these DemoCard conversation logs for hallucinations.",
+    "Did the agent make up any ZIP codes in the production export? Compare save_zip_code arguments with what the customer said.",
+    "Run a hallucination evaluation on the trajectories in runs/ using the agent code in materials/.",
+    "Convert the DemoCard callbacks and tools into pseudocode and a tree so we can evaluate the logs against it.",
+    "We need the MDD 5.5.2 style hallucination analysis (unsupported tool, argument, output) on the August logs.",
+    "Evaluate tool selection appropriateness in these conversation traces like the DeepEval tool use metric, with the tool docstrings as reference.",
+    "Are the end-conversation reasons the model passes supported by what happened in each call?",
+    "Grounding check: for every validate_zip_code call, was the ZIP the one the customer confirmed?",
+    "Find unsupported arguments and wrong tool calls in this BigQuery xlsx of agent sessions.",
+    "Is the bot making things up? Here are the simulator runs and the agent source."
+  ],
+  "negative": [
+    "Run the fairness analysis across accents on the DemoCard simulation results.",
+    "Score these agent utterances for toxicity.",
+    "Generate adversarial prompts to jailbreak the card replacement agent.",
+    "Write section 5.5 of the model development document.",
+    "Start the customer simulator against the DemoCard demo app and record ten sessions.",
+    "Summarize this PDF about ASR error rates.",
+    "Make a slide deck about our validation approach.",
+    "Fix the bug in validate_zip_code so it handles ZIP+4 input.",
+    "How many turns does the average damaged-card conversation take?",
+    "Translate the agent's instructions into Spanish."
+  ]
+}

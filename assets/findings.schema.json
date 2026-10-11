@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "hallucination-eval/findings.schema.json",
+  "title": "hallucination_findings.json",
+  "type": "object",
+  "required": ["meta", "conversations"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["skill", "skill_version", "generated_at", "target_agent", "evaluator", "reference_points"],
+      "properties": {
+        "skill": {"type": "string"},
+        "skill_version": {"type": "string"},
+        "generated_at": {"type": "string"},
+        "target_agent": {"type": "string"},
+        "pseudocode_file": {"type": ["string", "null"]},
+        "pseudocode_sha256": {"type": ["string", "null"]},
+        "materials": {"type": "array"},
+        "trajectory_sources": {"type": "array"},
+        "evaluator": {
+          "type": "object",
+          "required": ["mode"],
+          "properties": {
+            "mode": {"type": "string", "enum": ["multi-agent", "single-agent"]},
+            "model": {"type": ["string", "null"]},
+            "checker_script": {"type": ["string", "null"]},
+            "batches": {"type": ["integer", "null"]},
+            "audited": {"type": ["boolean", "null"]},
+            "models_used": {"type": ["array", "null"], "items": {"type": "string"}}
+          }
+        },
+        "sampling": {"type": ["object", "null"]},
+        "normalization": {"type": ["object", "null"]},
+        "reference_points": {"type": "array", "items": {"type": "string"}, "minItems": 6}
+      }
+    },
+    "conversations": {"type": "array", "items": {"$ref": "#/$defs/conversation"}}
+  },
+  "$defs": {
+    "evidence": {
+      "type": "object",
+      "required": ["kind"],
+      "properties": {
+        "kind": {"type": "string", "enum": ["customer_utterance", "agent_utterance", "tool_call", "tool_response", "state", "transfer", "session_end", "checker", "pseudocode", "material"]},
+        "turn": {"type": ["integer", "null"]},
+        "quote": {"type": ["string", "null"]},
+        "locator": {"type": ["string", "null"]},
+        "ref": {"type": ["string", "null"]},
+        "provenance": {"type": ["string", "null"], "enum": ["seen_in_code", "inferred", "unknown", null]}
+      }
+    },
+    "verification": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": {"type": "string", "enum": ["confirmed", "revised", "rejected", "unaudited"]},
+        "auditor_rationale": {"type": ["string", "null"]},
+        "revised_from": {"type": ["object", "string", "null"]}
+      }
+    },
+    "hallucination": {
+      "type": "object",
+      "required": ["id", "turn", "point", "author", "type", "check_kind", "observed", "rationale", "evidence"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[HPR]-\\d{4,}$"},
+        "turn": {"type": ["integer", "null"]},
+        "point": {"type": "string", "minLength": 1},
+        "author": {"type": "string", "enum": ["model", "code", "unknown"]},
+        "type": {"type": "string", "enum": ["unsupported_tool_selection", "hallucinated_tool", "unsupported_argument", "wrong_source_argument", "unsupported_output", "unsupported_branch", "silence_violation", "omission", "unsupported_end_reason"]},
+        "check_kind": {"type": "string", "enum": ["deterministic", "pattern", "grounding", "judgment"]},
+        "severity": {"type": ["string", "null"], "enum": ["low", "medium", "high", null]},
+        "confidence": {"type": ["string", "null"], "enum": ["low", "medium", "high", null]},
+        "observed": {"type": ["string", "object", "array", "number", "boolean", "null"]},
+        "expected_or_allowed": {"type": ["string", "object", "array", "null"]},
+        "rationale": {"type": "string", "minLength": 1},
+        "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence"}, "minItems": 1},
+        "verification": {"$ref": "#/$defs/verification"},
+        "decided_by": {"type": ["string", "null"], "enum": ["checker", "evaluator", "auditor", null]},
+        "batch": {"type": ["string", "null"]}
+      }
+    },
+    "pipeline_finding": {
+      "type": "object",
+      "required": ["id", "point", "type", "rationale", "evidence"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^P-\\d{4,}$"},
+        "turn": {"type": ["integer", "null"]},
+        "point": {"type": "string"},
+        "type": {"type": "string", "enum": ["spec_drift", "code_effect_mismatch", "code_output_mismatch", "missing_state", "unmatched_tool_response", "other"]},
+        "rationale": {"type": "string", "minLength": 1},
+        "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence"}}
+      }
+    },
+    "unverifiable": {
+      "type": "object",
+      "required": ["point", "reason"],
+      "properties": {
+        "point": {"type": "string"},
+        "turn": {"type": ["integer", "null"]},
+        "reason": {"type": "string"}
+      }
+    },
+    "conversation": {
+      "type": "object",
+      "required": ["conversation_id", "hallucinations"],
+      "properties": {
+        "conversation_id": {"type": "string", "minLength": 1},
+        "source": {"type": ["object", "null"]},
+        "workflow": {"type": ["string", "null"]},
+        "turns": {"type": ["integer", "null"]},
+        "points_evaluated": {"type": ["integer", "null"]},
+        "outcome": {"type": ["string", "null"]},
+        "hallucinations": {"type": "array", "items": {"$ref": "#/$defs/hallucination"}},
+        "rejected": {"type": "array", "items": {"$ref": "#/$defs/hallucination"}},
+        "pipeline_findings": {"type": "array", "items": {"$ref": "#/$defs/pipeline_finding"}},
+        "unverifiable": {"type": "array", "items": {"$ref": "#/$defs/unverifiable"}},
+        "notes": {"type": "array", "items": {"type": "string"}},
+        "audit": {"type": ["object", "null"]}
+      }
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "skill_name": "hallucination-eval",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Using the DemoCard materials in materials/democard and the runner logs under runs/replay, set up a hallucination evaluation run. Start with the environment check and the setup questions; then produce the pseudocode and the architecture views before touching any log.",
+      "expected_output": "A run folder with run_manifest.json, materials_inventory.json, materials_tree.md, an architect dispatch whose prompt names no trajectory file, and the operations manual posted in chat.",
+      "expectations": [
+        "The orchestrator writes the subagent operations manual before the first dispatch and states the Python command it detected.",
+        "The architect is dispatched before the normalizer, and the architect prompt file lists only materials, inventory, tree and intro documents.",
+        "The materials tree shows the root agent, its three sub-agents, the human-transfer child and the callbacks per stage.",
+        "No batch, findings or log content appears in the orchestrator's messages."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Here is a toy agent folder with two Python tools, one callback file and a packaging yaml. Derive the workflow pseudocode and compile it.",
+      "expected_output": "A workflow_pseudocode.md that compiles with build_spec.py (0 errors), an architecture.md with a tree and one Mermaid flow, and a point inventory.",
+      "expectations": [
+        "Every fenced json block carries kind, author and provenance.",
+        "The point inventory has a .selection point per step and an .args point per model-authored input.",
+        "Elements that the toy materials do not show are tagged inferred or unknown and listed under open questions.",
+        "build_spec.py compile exits 0 and render produces a Mermaid flowchart."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Normalize tests/fixtures/mini_run/events.jsonl into conversations and batches and report what the data contains.",
+      "expected_output": "conversations.json with one conversation of three turns, intra-turn order preserved, origin tags, ground truth zip_on_file 10001, one batch file, and a normalizer report.",
+      "expectations": [
+        "The tool call save_zip_code appears after the customer utterance of turn 2 and before the read-back.",
+        "The conversation carries metadata.ground_truth.zip_on_file.",
+        "The report lists warnings with an assessment rather than hiding them.",
+        "The normalizer did not open the pseudocode or materials."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Evaluate batch 001 (the mini run) against the DemoCard excerpt pseudocode in references/example_democard_excerpt.md and write the findings batch.",
+      "expected_output": "findings/batch_001.json that validates with --batch --pre-audit and contains one unsupported_argument finding on zip_collection.save_zip_code.args.zip_code for the truncated ZIP.",
+      "expectations": [
+        "The finding quotes the customer's six-digit utterance and cites the locator of the tool call.",
+        "The finding references tool save_zip_code inputs.zip_code with provenance seen_in_code.",
+        "The canned read-back sentence is not reported as a hallucination (it is code-authored).",
+        "points_evaluated counts supported points as well."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Audit tests/fixtures/mini_findings_batch.json blind: build the payload, decide each item from evidence, write verdicts, apply them.",
+      "expected_output": "audit/verdicts_batch_001.json with one verdict per item and a verified batch that validates; a finding whose evidence does not support the claim is rejected.",
+      "expectations": [
+        "The auditor writes its own verdict before any status and the payload withholds the evaluator's rationale.",
+        "A rejected finding appears under conversations[].rejected with an auditor rationale.",
+        "The verified batch validates with validate_findings.py --batch."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "The log shows the read-back sentence 'You entered 1 0 0 0 1. Is that correct?' while the pseudocode template says 'Just to be sure, I heard {user_zip}. Is that the correct zip code?'. Classify this.",
+      "expected_output": "A pipeline finding of type spec_drift on callback.readback_zip with a proposed template variant, not a hallucination.",
+      "expectations": [
+        "The artifact is recognised as code-authored from the author tag.",
+        "The output proposes updating the template variants rather than blaming the model.",
+        "No hallucination is recorded for the sentence."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Run the DeepEval toxicity metric over these agent utterances and tell me whether the tone is acceptable.",
+      "expected_output": "The skill does not trigger; the assistant answers the toxicity question directly or points to a toxicity tool.",
+      "expectations": [
+        "hallucination-eval is not activated for a toxicity question."
+      ]
+    }
+  ]
+}

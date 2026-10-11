@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "sheet": null,
+  "columns": {
+    "session_id": "conversation_id",
+    "timestamp": "event_time",
+    "turn": null,
+    "row_type": "event_type",
+    "speaker": "speaker",
+    "text": "utterance",
+    "tool_name": "tool_name",
+    "tool_args": "tool_input",
+    "tool_response": "tool_response",
+    "tool_call_id": null,
+    "state": "updated_variables",
+    "ces_json": null,
+    "agent": null,
+    "flow": "issue_reason"
+  },
+  "values": {
+    "customer_speakers": ["user", "customer", "caller", "human", "end_user"],
+    "agent_speaker_regex": "(?i)agent|democard|bot|model|assistant",
+    "tool_row_types": ["TOOL_CALL", "tool_call", "tool", "function_call", "tool_response"],
+    "utterance_row_types": ["USER_UTTERANCE", "AGENT_UTTERANCE", "utterance", "text", "transcript"],
+    "state_row_types": ["STATE", "updatedVariables", "variable_update"],
+    "end_row_types": ["END", "transfer", "hangup", "sys.remote-call-disconnected"],
+    "abandon_markers": ["sys.remote-call-disconnected"]
+  },
+  "ordering": "timestamp_then_row",
+  "_comment": "columns: map each logical field to a column header of the export (null = absent). values: how row types and speakers are recognised. Confirm every required field (session_id, text, tool_name, tool_args, tool_response) with the user before normalizing."
+}

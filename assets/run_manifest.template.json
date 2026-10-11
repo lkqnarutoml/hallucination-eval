@@ -1,0 +1,166 @@
+{
+  "skill": "hallucination-eval",
+  "skill_version": "0.4.0",
+  "run_id": "<UTC timestamp>-<agent>, e.g. 20260920T153000Z-DemoCard",
+  "created_at": "<ISO-8601>",
+  "updated_at": "<ISO-8601>",
+  "target_agent": "<agent name, e.g. DemoCard>",
+  "run_dir": "<absolute path of output/<RUN_ID>>",
+  "input_dir": "<absolute path of input/ or null>",
+  "inputs": {
+    "materials": [
+      "<input/materials/<entry>>"
+    ],
+    "trajectories": [
+      "<input/trajectories/<entry>>"
+    ],
+    "ground_truth": [
+      "<input/ground_truth/<file>>"
+    ],
+    "intro_docs": [
+      "<input/docs/<file>>"
+    ],
+    "existing_pseudocode": null,
+    "config": {
+      "column_map": null,
+      "agents_file": null,
+      "settings": null
+    }
+  },
+  "settings": {
+    "batch_conversations": 12,
+    "batch_chars": 40000,
+    "checker_threshold": 20,
+    "sampling": null
+  },
+  "evaluator": {
+    "mode": "multi-agent",
+    "model": "<model the host reports>"
+  },
+  "phases": {
+    "setup": {
+      "status": "done",
+      "at": null,
+      "note": null
+    },
+    "inventory": {
+      "status": "pending",
+      "at": null,
+      "note": null
+    },
+    "pseudocode": {
+      "status": "pending",
+      "at": null,
+      "note": null
+    },
+    "spec_review": {
+      "status": "pending",
+      "at": null,
+      "note": null
+    },
+    "normalize_inspect": {
+      "status": "pending",
+      "at": null,
+      "note": null
+    },
+    "normalize": {
+      "status": "pending",
+      "at": null,
+      "note": null
+    },
+    "checker_compile": {
+      "status": "pending",
+      "at": null,
+      "note": null
+    },
+    "checker_run": {
+      "status": "pending",
+      "at": null,
+      "note": null
+    },
+    "evaluate": {
+      "status": "pending",
+      "at": null,
+      "note": null
+    },
+    "audit": {
+      "status": "pending",
+      "at": null,
+      "note": null
+    },
+    "report": {
+      "status": "pending",
+      "at": null,
+      "note": null
+    }
+  },
+  "batches": {
+    "evaluate": {},
+    "audit": {}
+  },
+  "layout": {
+    "materials_inventory": "inventory/materials_inventory.json",
+    "materials_summary": "inventory/materials_summary.md",
+    "materials_tree": "inventory/materials_tree.md",
+    "pseudocode": "workflow_pseudocode.md",
+    "spec_json": "spec/workflow_spec.json",
+    "spec_report": "spec/spec_report.md",
+    "architecture": "architecture.md",
+    "architect_report": "spec/architect_report.md",
+    "spec_review": "spec/spec_review.md",
+    "column_map_proposed": "normalized/column_map.proposed.json",
+    "column_map": "normalized/column_map.json",
+    "conversations": "normalized/conversations.json",
+    "normalize_report": "normalized/normalize_report.md",
+    "normalizer_report": "normalized/normalizer_report.md",
+    "normalizer_inspect_report": "normalized/normalizer_inspect_report.md",
+    "batches_dir": "normalized/batches",
+    "checker": "checker/checker_agent.py",
+    "checker_out_dir": "checker/results",
+    "checker_report": "checker/checker_report.md",
+    "findings_dir": "findings",
+    "notes_dir": "notes",
+    "audit_dir": "audit",
+    "final": "hallucination_findings.json",
+    "aggregate": "aggregate.json",
+    "tables": "summary_tables.md",
+    "summary": "summary.md",
+    "reporter_report": "report/reporter_report.md",
+    "runtime_dir": "runtime",
+    "host_manual": "runtime/host.md",
+    "inputs_record": "runtime/inputs.json"
+  },
+  "files": {
+    "materials_inventory": "<run_dir>/inventory/materials_inventory.json",
+    "materials_summary": "<run_dir>/inventory/materials_summary.md",
+    "materials_tree": "<run_dir>/inventory/materials_tree.md",
+    "pseudocode": "<run_dir>/workflow_pseudocode.md",
+    "spec_json": "<run_dir>/spec/workflow_spec.json",
+    "spec_report": "<run_dir>/spec/spec_report.md",
+    "architecture": "<run_dir>/architecture.md",
+    "architect_report": "<run_dir>/spec/architect_report.md",
+    "spec_review": "<run_dir>/spec/spec_review.md",
+    "column_map_proposed": "<run_dir>/normalized/column_map.proposed.json",
+    "column_map": "<run_dir>/normalized/column_map.json",
+    "conversations": "<run_dir>/normalized/conversations.json",
+    "normalize_report": "<run_dir>/normalized/normalize_report.md",
+    "normalizer_report": "<run_dir>/normalized/normalizer_report.md",
+    "normalizer_inspect_report": "<run_dir>/normalized/normalizer_inspect_report.md",
+    "batches_dir": "<run_dir>/normalized/batches",
+    "checker": "<run_dir>/checker/checker_agent.py",
+    "checker_out_dir": "<run_dir>/checker/results",
+    "checker_report": "<run_dir>/checker/checker_report.md",
+    "findings_dir": "<run_dir>/findings",
+    "notes_dir": "<run_dir>/notes",
+    "audit_dir": "<run_dir>/audit",
+    "final": "<run_dir>/hallucination_findings.json",
+    "aggregate": "<run_dir>/aggregate.json",
+    "tables": "<run_dir>/summary_tables.md",
+    "summary": "<run_dir>/summary.md",
+    "reporter_report": "<run_dir>/report/reporter_report.md",
+    "runtime_dir": "<run_dir>/runtime",
+    "host_manual": "<run_dir>/runtime/host.md",
+    "inputs_record": "<run_dir>/runtime/inputs.json"
+  },
+  "log": []
+}
